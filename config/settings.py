@@ -23,19 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rg&*8@=$5y=s-l(gw))+z-ne1x^xz$8)h8qu79y_vz2k-e(xv_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "ec2-13-220-182-250.compute-1.amazonaws.com",
 ]
-
-CSRF_TRUSTED_ORIGINS = [
-    "http://ec2-13-220-182-250.compute-1.amazonaws.com",
-    "https://ec2-13-220-182-250.compute-1.amazonaws.com",
-]
-
 
 
 # Application definition
