@@ -1,10 +1,17 @@
-{% extends "core/base.html" %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Burnout Reports</title>
 
-{% block content %}
+    <!-- External CSS (not Django static tag) -->
+    <link rel="stylesheet" href="/static/css/reports.css">
 
-<link rel="stylesheet" href="{% static 'css/reports.css' %}">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
 
 <div class="reports-container">
 
@@ -48,7 +55,12 @@
                 <p><strong>Risk Score:</strong> {{ p.prediction_burnout_risk|floatformat:2 }}</p>
                 <p><strong>Factors:</strong> {{ p.contributing_factors }}</p>
                 <p><strong>Recommendations:</strong> {{ p.recommendations }}</p>
-                <a class="meditation-link" href="{{ p.meditation_link }}" target="_blank">Meditation Link</a>
+
+                {% if p.meditation_link %}
+                <a class="meditation-link" href="{{ p.meditation_link }}" target="_blank">
+                    Meditation Link
+                </a>
+                {% endif %}
             </div>
         </div>
         {% empty %}
@@ -62,6 +74,7 @@
 <script>
     const ctx = document.getElementById('burnoutChart').getContext('2d');
 
+    // Django variables inserted as JSON-safe objects
     const dates = {{ dates|safe }};
     const scores = {{ scores|safe }};
 
@@ -72,12 +85,20 @@
             datasets: [{
                 label: 'Burnout Risk (%)',
                 data: scores,
+                borderColor: '#ff6d6d',
+                backgroundColor: 'rgba(255, 109, 109, 0.15)',
                 borderWidth: 3,
                 fill: true,
                 tension: 0.4,
             }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true, max: 100 }
+            }
         }
     });
 </script>
 
-{% endblock %}
+</body>
+</html>

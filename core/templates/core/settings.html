@@ -1,103 +1,81 @@
-{% extends "core/base.html" %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
 
-{% block content %}
-<div class="settings-container">
+    <link rel="stylesheet" href="/static/css/settings.css">
+</head>
 
-    <h1 class="page-title">Settings</h1>
-    <p class="subtitle">Personalize your UnruffledAI wellness experience</p>
+<body>
 
-    <!-- SUCCESS MESSAGE -->
-    {% if success %}
-        <div class="success-banner">
-            ✓ Preferences updated successfully!
-        </div>
-    {% endif %}
+<div class="container">
 
-    <!-- SETTINGS FORM -->
-    <form method="POST" class="settings-form">
-        {% csrf_token %}
+    <header class="page-header">
+        <h1>Settings</h1>
+        <p class="subtitle">Customize your wellness experience</p>
+    </header>
 
-        <!-- NOTIFICATION SETTINGS -->
-        <section class="settings-section">
-            <h2>Notifications</h2>
+    <section class="card">
+        <h2>Notifications</h2>
 
-            <label class="switch-label">
+        <form method="POST">
+            {% csrf_token %}
+
+            <label class="toggle">
                 <input type="checkbox" name="notify_burnout" {% if user_pref.notify_burnout_risk %}checked{% endif %}>
-                <span>Burnout Risk Alerts</span>
+                Burnout Risk Alerts
             </label>
 
-            <label class="switch-label">
+            <label class="toggle">
                 <input type="checkbox" name="notify_astrology" {% if user_pref.notify_astrological_events %}checked{% endif %}>
-                <span>Astrological Transit Alerts</span>
+                Astrology Event Alerts
             </label>
 
-            <label class="switch-label">
+            <label class="toggle">
                 <input type="checkbox" name="device_sync" {% if user_pref.device_sync_enabled %}checked{% endif %}>
-                <span>Device Sync Updates</span>
+                Device Sync (Fitbit / Apple Watch)
             </label>
-        </section>
 
-        <!-- DARK MODE -->
-        <section class="settings-section">
-            <h2>Appearance</h2>
-
-            <label class="switch-label">
-                <input type="checkbox" name="dark_mode" id="darkModeToggle"
-                       {% if user_pref.dark_mode %}checked{% endif %}>
-                <span>Enable Dark Mode</span>
+            <label class="toggle">
+                <input type="checkbox" name="dark_mode" {% if user_pref.dark_mode %}checked{% endif %}>
+                Enable Dark Mode
             </label>
-        </section>
 
-        <!-- CONNECTED DEVICES -->
-        <section class="settings-section">
-            <h2>Connected Devices</h2>
+            <label>
+                Preferred Notification Method:
+                <select name="notification_method">
+                    <option>Email</option>
+                    <option>Text Message</option>
+                    <option>In-App</option>
+                </select>
+            </label>
 
-            <p class="device-help">Sync your wellness data from wearables.</p>
+            <button type="submit" class="button">Save Settings</button>
+        </form>
+    </section>
 
-            <button class="device-btn">Connect Fitbit</button>
-            <button class="device-btn">Connect Apple Watch</button>
-            <button class="device-btn">Connect Google Fit</button>
-        </section>
-
-        <!-- FEEDBACK -->
-        <section class="settings-section">
-            <h2>Feedback</h2>
-
-            <label>Share your thoughts</label>
-            <textarea name="feedback" placeholder="Tell us what you’d like to improve or see."></textarea>
-
-            <label>Feature Requests</label>
-            <textarea name="feature_request" placeholder="What should we build next?"></textarea>
+    <section class="card">
+        <h2>Feedback</h2>
+        <form method="POST">
+            {% csrf_token %}
 
             <label>Your Rating</label>
-            <select name="rating">
-                <option value="">Select...</option>
-                <option value="5">★★★★★</option>
-                <option value="4">★★★★☆</option>
-                <option value="3">★★★☆☆</option>
-                <option value="2">★★☆☆☆</option>
-                <option value="1">★☆☆☆☆</option>
-            </select>
-        </section>
+            <input type="number" name="rating" min="1" max="5">
 
-        <button type="submit" class="save-btn">Save Changes</button>
-    </form>
+            <label>Feedback</label>
+            <textarea name="feedback" placeholder="Tell us how we can improve..."></textarea>
+
+            <label>Feature Requests</label>
+            <textarea name="feature_request" placeholder="What would you like to see next?"></textarea>
+
+            <button type="submit" class="button">Submit Feedback</button>
+        </form>
+    </section>
 
 </div>
 
-<!-- DARK MODE HANDLER -->
-<script>
-document.getElementById("darkModeToggle")?.addEventListener("change", function() {
-    fetch("{% url 'toggle_dark_mode' %}", {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": "{{ csrf_token }}",
-        },
-        body: new URLSearchParams({ "dark_mode": this.checked })
-    });
-});
-</script>
+</body>
+</html>
 
-{% endblock %}
 
