@@ -1,0 +1,150 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Natal Chart{% endblock %}
+
+{% block content %}
+
+<div class="natal-container">
+
+    <!-- Back Button -->
+    <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+
+    <h1 class="page-title">✨ {{ profile.full_name }} – Natal Chart ✨</h1>
+
+    {% if error %}
+        <div class="error-box">{{ error }}</div>
+    {% endif %}
+
+    {% if chart %}
+    
+    <!-- BIG THREE -->
+    <section class="big-three">
+        <div class="big-card">
+            <h2>☀ Sun</h2>
+            <p>{{ chart.sun }}</p>
+        </div>
+        <div class="big-card">
+            <h2>🌙 Moon</h2>
+            <p>{{ chart.moon }}</p>
+        </div>
+        <div class="big-card">
+            <h2>↗ Rising</h2>
+            <p>{{ chart.rising }}</p>
+        </div>
+    </section>
+
+<!-- DAILY GUIDANCE -->
+{% if daily_guidance %}
+<section class="chart-section">
+    <h2 class="section-title">🔮 Daily Guidance</h2>
+    <div class="info-card-wide">
+        <p>{{ daily_guidance }}</p>
+    </div>
+</section>
+{% endif %}
+
+<!-- TRANSIT ALERTS -->
+{% if transits %}
+<section class="chart-section">
+    <h2 class="section-title">⚠️ Current Transits & Alerts</h2>
+
+    <div class="card-grid">
+        {% for transit in transits %}
+        <div class="info-card">
+            <h3>{{ transit.planet }}</h3>
+            <p><strong>House:</strong> {{ transit.house }}</p>
+            <p><strong>Type:</strong> {{ transit.transit_type }}</p>
+
+            {% if transit.severity %}
+            <p><strong>Severity:</strong>
+                <span class="severity-{{ transit.severity|lower }}">
+                    {{ transit.severity }}
+                </span>
+            </p>
+            {% endif %}
+
+            <p>{{ transit.message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+    <!-- PLANETS -->
+    <section class="chart-section">
+        <h2 class="section-title">🌌 Planetary Positions</h2>
+
+        <div class="card-grid">
+            {% for planet in chart.planets %}
+            <div class="info-card">
+                <h3>{{ planet.name }}</h3>
+                <p><strong>Sign:</strong> {{ planet.sign }}</p>
+                <p><strong>House:</strong> {{ planet.house }}</p>
+                <p><strong>Degree:</strong> {{ planet.degree }}°</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <!-- HOUSES -->
+    <section class="chart-section">
+        <h2 class="section-title">🏠 Houses</h2>
+
+        <div class="card-grid">
+            {% for house in chart.houses %}
+            <div class="info-card">
+                <h3>House {{ forloop.counter }}</h3>
+                <p><strong>Sign:</strong> {{ house.sign }}</p>
+                <p><strong>Degree:</strong> {{ house.degree }}°</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <!-- ASPECTS -->
+    <section class="chart-section">
+        <h2 class="section-title">⚡ Aspects</h2>
+
+        <div class="card-grid">
+            {% for aspect in chart.aspects %}
+            <div class="info-card">
+                <h3>{{ aspect.aspect_type }}</h3>
+                <p><strong>Between:</strong> {{ aspect.planet_1 }} & {{ aspect.planet_2 }}</p>
+                <p><strong>Orb:</strong> {{ aspect.orb }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <!-- ELEMENTS, MODES, DOMINANT SIGN -->
+    <section class="chart-section">
+        <h2 class="section-title">💫 Chart Breakdown</h2>
+
+        <div class="info-card-wide">
+            <h3>Elements</h3>
+            <p>Fire: {{ chart.elements.fire }} | Earth: {{ chart.elements.earth }} | Air: {{ chart.elements.air }} | Water: {{ chart.elements.water }}</p>
+
+            <h3>Modes</h3>
+            <p>Cardinal: {{ chart.modes.cardinal }} | Fixed: {{ chart.modes.fixed }} | Mutable: {{ chart.modes.mutable }}</p>
+
+            <h3>Moon Phase</h3>
+            <p>{{ chart.moon_phase.phase }} – Illumination: {{ chart.moon_phase.illumination }}%</p>
+
+            <h3>Dominant Sign</h3>
+            <p>{{ chart.dominant_sign.sign }}</p>
+
+            <h3>Hemisphere Influence</h3>
+            <p>{{ chart.hemisphere.type }} Hemisphere</p>
+        </div>
+    </section>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+

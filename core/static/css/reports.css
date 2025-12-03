@@ -1,0 +1,71 @@
+.reports-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px;
+}
+
+.page-title {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    margin-bottom: 25px;
+    color: var(--text-soft);
+}
+
+.chart-section {
+    margin-bottom: 40px;
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.summary-section {
+    margin-bottom: 40px;
+}
+
+.summary-card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.predictions-section {
+    margin-bottom: 40px;
+}
+
+.prediction-card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.prediction-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.level {
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.level.low { background: #d4fce2; color: #0f6f32; }
+.level.medium { background: #fcebcc; color: #9a6a00; }
+.level.high { background: #ffd6d6; color: #b32121; }
+
+.meditation-link {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: underline;
+}
+
+.no-data {
+    color: var(--text-soft);
+    font-style: italic;
+}

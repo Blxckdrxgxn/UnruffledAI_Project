@@ -1,0 +1,166 @@
+/* Overall background */
+.auth-body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #1a2937, #0d141c);
+    font-family: 'Inter', sans-serif;
+    color: #f5f8fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Layout wrapper */
+.auth-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Logo Section */
+.logo-box {
+    margin-bottom: 20px;
+}
+
+.auth-logo {
+    width: 180px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.brand-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.brand-sub {
+    margin-top: 5px;
+    font-size: 0.85rem;
+    color: #9eb4c3;
+}
+
+/* Login Card */
+.auth-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    backdrop-filter: blur(12px);
+    padding: 30px 35px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.auth-card h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.7rem;
+}
+
+.subtitle {
+    color: #bbcad8;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+}
+
+/* Form inputs */
+.auth-card label {
+    float: left;
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+    color: #ced8e1;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    color: #fff;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.auth-btn {
+    width: 100%;
+    background: #4f79ff;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.auth-btn:hover {
+    background: #3e62dd;
+}
+
+.sso-btn {
+    background: #1f2937;
+    color: #e0e6ed;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #3a4a5a;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.sso-btn:hover {
+    background: #111a24;
+}
+
+/* Alt section */
+.auth-alt {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #b8c2cc;
+}
+
+/* Register text */
+.register-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #c5d4e0;
+}
+
+.register-text a {
+    color: #7abaff;
+    text-decoration: none;
+}
+
+/* Footer */
+.auth-footer {
+    margin-top: 30px;
+    font-size: 0.75rem;
+    color: #7d8a97;
+}
+
+.large-card {
+    max-width: 500px;
+    width: 100%;
+}
+
+.device-section {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.device-btn {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: #243447;
+    color: #dfe6ee;
+    border-radius: 10px;
+    border: 1px solid #3f5063;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.device-btn:hover {
+    background: #1b2633;
+}

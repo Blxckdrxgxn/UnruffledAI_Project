@@ -1,0 +1,63 @@
+.manual-entry-card label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.manual-entry-card input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text);
+}
+
+/* Modal background */
+.modal-overlay {
+    display: none; 
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* Modal box */
+.modal-content {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px;
+    width: 380px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    color: var(--text);
+}
+
+.modal-content h2 {
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+/* Inputs */
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text);
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cancel-btn {
+    background: #444;
+}

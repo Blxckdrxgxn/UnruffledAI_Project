@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>UnruffledAI — Create Your Account</title>
+    <link rel="stylesheet" href="/static/css/auth.css">
+</head>
+
+<body class="auth-body">
+
+<div class="auth-container">
+
+    <!-- LOGO + BRAND -->
+    <div class="logo-box">
+        <img src="/static/img/unruffled_logo.png" class="auth-logo" alt="UnruffledAI Logo">
+        <h1 class="brand-title">UnruffledAI</h1>
+        <p class="brand-sub">Wellness • Astrology • Burnout Prevention</p>
+    </div>
+
+    <!-- REGISTRATION CARD -->
+    <div class="auth-card large-card">
+
+        <h2>Create Your Account</h2>
+        <p class="subtitle">Join UnruffledAI to track your wellness journey</p>
+
+        <form method="POST" id="registerForm">
+            {% csrf_token %}
+
+            <!-- PERSONAL INFO -->
+            <label>Full Name</label>
+            <input type="text" name="full_name" placeholder="John Doe" required>
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Create a password" required>
+
+            <label>Phone Number</label>
+            <input type="text" name="phone" placeholder="+1 (555) 123-4567">
+
+            <!-- BIRTH DATA -->
+            <label>Date of Birth</label>
+            <input type="date" name="dob" required>
+
+            <label>Time of Birth</label>
+            <input type="time" name="tob">
+
+            <label>Birth Location</label>
+            <input type="text" name="birth_city" placeholder="Enter city of birth" id="autocomplete">
+
+            <!-- Hidden fields for lat/lon/timezone -->
+            <input type="hidden" name="birth_latitude">
+            <input type="hidden" name="birth_longitude">
+            <input type="hidden" name="birth_timezone">
+
+            <!-- DEVICE CONNECTION -->
+            <div class="device-section">
+                <label>Link Fitbit Device (Optional)</label>
+                <button type="button" class="device-btn">Connect Fitbit</button>
+
+                <label>Link Apple Watch Device (Optional)</label>
+                <button type="button" class="device-btn">Connect Apple Watch</button>
+            </div>
+
+            <button class="auth-btn">Continue to Dashboard</button>
+        </form>
+
+        <p class="register-text">
+            Already have an account? <a href="/login/">Sign In</a>
+        </p>
+
+    </div>
+
+    <footer class="auth-footer">
+        © 2025 UnruffledAI. All Rights Reserved.<br>
+        Wellness & Burnout Insight Platform. Built with Intention 🌙
+    </footer>
+
+</div>
+
+<!-- GOOGLE AUTOCOMPLETE + TIMEZONE -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_40bjRH-p6RRo2Njkybn7Fs8il1Vgyvo&libraries=places"></script>
+
+<script>
+function initAutocomplete() {
+    const input = document.getElementById("autocomplete");
+    if (!input) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(input, { types: ["(cities)"] });
+
+    autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        if (!place.geometry) return;
+
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+
+        document.querySelector("input[name='birth_latitude']").value = lat;
+        document.querySelector("input[name='birth_longitude']").value = lng;
+
+        // Fetch timezone
+        fetch(
+            `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=${Math.floor(Date.now()/1000)}&key=AIzaSyD_40bjRH-p6RRo2Njkybn7Fs8il1Vgyvo`
+        )
+        .then(r => r.json())
+        .then(data => {
+            document.querySelector("input[name='birth_timezone']").value = data.rawOffset / 3600;
+        });
+    });
+}
+
+window.onload = initAutocomplete;
+</script>
+
+</body>
+</html>

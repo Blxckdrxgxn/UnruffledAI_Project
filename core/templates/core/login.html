@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>UnruffledAI — Login</title>
+    <link rel="stylesheet" href="/static/css/auth.css">
+</head>
+
+<body class="auth-body">
+
+<div class="auth-container">
+
+    <!-- LOGO SECTION -->
+    <div class="logo-box">
+        <img src="/static/img/unruffled_logo.png" alt="UnruffledAI Logo" class="auth-logo">
+        <h1 class="brand-title">UnruffledAI</h1>
+        <p class="brand-sub">Wellness • Astrology • Burnout Risk Insights</p>
+    </div>
+
+    <!-- LOGIN CARD -->
+    <div class="auth-card">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Sign in to continue your wellness journey</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label>Email</label>
+            <input type="text" name="username" placeholder="Your username or email" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+
+            <button class="auth-btn">Sign In</button>
+        </form>
+
+        <div class="auth-alt">
+            <p>Or continue with</p>
+            <button class="sso-btn">Single Sign-On</button>
+        </div>
+
+        <p class="register-text">
+            Don’t have an account?
+            <a href="/register/">Register here</a>
+        </p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="auth-footer">
+        © 2025 UnruffledAI. Wellness & Burnout Insight Platform. Built with Intention 🌙
+    </footer>
+
+</div>
+
+</body>
+</html>

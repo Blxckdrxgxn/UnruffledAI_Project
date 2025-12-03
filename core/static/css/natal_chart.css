@@ -1,0 +1,71 @@
+.natal-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    color: var(--text);
+}
+
+.page-title {
+    text-align: center;
+    font-size: 34px;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    color: var(--text);
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.error-box {
+    background: rgba(255,0,0,0.2);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.big-three {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+}
+
+.big-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 16px;
+    width: 28%;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.chart-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 26px;
+    margin-bottom: 16px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.info-card, .info-card-wide {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.info-card-wide h3 {
+    margin-top: 16px;
+}
+
+.severity-high { color: #ff4d4d; font-weight: bold; }
+.severity-moderate { color: #ffb84d; font-weight: bold; }
+.severity-low { color: #7dff7d; font-weight: bold; }

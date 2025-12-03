@@ -1,0 +1,103 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="settings-container">
+
+    <h1 class="page-title">Settings</h1>
+    <p class="subtitle">Personalize your UnruffledAI wellness experience</p>
+
+    <!-- SUCCESS MESSAGE -->
+    {% if success %}
+        <div class="success-banner">
+            ✓ Preferences updated successfully!
+        </div>
+    {% endif %}
+
+    <!-- SETTINGS FORM -->
+    <form method="POST" class="settings-form">
+        {% csrf_token %}
+
+        <!-- NOTIFICATION SETTINGS -->
+        <section class="settings-section">
+            <h2>Notifications</h2>
+
+            <label class="switch-label">
+                <input type="checkbox" name="notify_burnout" {% if user_pref.notify_burnout_risk %}checked{% endif %}>
+                <span>Burnout Risk Alerts</span>
+            </label>
+
+            <label class="switch-label">
+                <input type="checkbox" name="notify_astrology" {% if user_pref.notify_astrological_events %}checked{% endif %}>
+                <span>Astrological Transit Alerts</span>
+            </label>
+
+            <label class="switch-label">
+                <input type="checkbox" name="device_sync" {% if user_pref.device_sync_enabled %}checked{% endif %}>
+                <span>Device Sync Updates</span>
+            </label>
+        </section>
+
+        <!-- DARK MODE -->
+        <section class="settings-section">
+            <h2>Appearance</h2>
+
+            <label class="switch-label">
+                <input type="checkbox" name="dark_mode" id="darkModeToggle"
+                       {% if user_pref.dark_mode %}checked{% endif %}>
+                <span>Enable Dark Mode</span>
+            </label>
+        </section>
+
+        <!-- CONNECTED DEVICES -->
+        <section class="settings-section">
+            <h2>Connected Devices</h2>
+
+            <p class="device-help">Sync your wellness data from wearables.</p>
+
+            <button class="device-btn">Connect Fitbit</button>
+            <button class="device-btn">Connect Apple Watch</button>
+            <button class="device-btn">Connect Google Fit</button>
+        </section>
+
+        <!-- FEEDBACK -->
+        <section class="settings-section">
+            <h2>Feedback</h2>
+
+            <label>Share your thoughts</label>
+            <textarea name="feedback" placeholder="Tell us what you’d like to improve or see."></textarea>
+
+            <label>Feature Requests</label>
+            <textarea name="feature_request" placeholder="What should we build next?"></textarea>
+
+            <label>Your Rating</label>
+            <select name="rating">
+                <option value="">Select...</option>
+                <option value="5">★★★★★</option>
+                <option value="4">★★★★☆</option>
+                <option value="3">★★★☆☆</option>
+                <option value="2">★★☆☆☆</option>
+                <option value="1">★☆☆☆☆</option>
+            </select>
+        </section>
+
+        <button type="submit" class="save-btn">Save Changes</button>
+    </form>
+
+</div>
+
+<!-- DARK MODE HANDLER -->
+<script>
+document.getElementById("darkModeToggle")?.addEventListener("change", function() {
+    fetch("{% url 'toggle_dark_mode' %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: new URLSearchParams({ "dark_mode": this.checked })
+    });
+});
+</script>
+
+{% endblock %}
+

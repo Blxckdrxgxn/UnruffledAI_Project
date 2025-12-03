@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" {% comment %}Add server-side dark class if preference is set{% endcomment %} class="{% if user_pref and user_pref.dark_mode %}dark{% endif %}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}UnruffledAI{% endblock %}</title>
+
+  <!-- No Tailwind CDN or theme.css, only custom style.css -->
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <!-- Logo Icon -->
+  <link rel="icon" href="{% static 'images/logo_unruffledai.png' %}" type="image/png">
+
+
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+  <script>
+    // Client-side dark-mode handling: prefer localStorage value, then server-side value
+    (function(){
+      try{
+        const stored = localStorage.getItem('darkMode');
+        const serverPref = {{ user_pref.dark_mode|default:False|yesno:'true,false' }};
+        const isDark = stored !== null ? stored === 'true' : serverPref === 'true';
+        if(isDark){
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+
+        // Sync across tabs
+        window.addEventListener('storage', (e) => {
+          if(e.key === 'darkMode'){
+            if(e.newValue === 'true') document.documentElement.classList.add('dark');
+            else document.documentElement.classList.remove('dark');
+          }
+        });
+      }catch(e){ console.warn('Dark mode init error', e); }
+    })();
+  </script>
+
+
+  <!-- NAV: Hidden on login & register -->
+  {% if request.resolver_match.url_name not in 'login register' %}
+  <nav class="bg-teal-700 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="{% static 'images/logo_unruffledai.png' %}" class="h-10 w-10" alt="UnruffledAI Logo" onerror="this.style.display='none'">
+        <a href="{% url 'dashboard' %}" class="text-xl font-semibold">UnruffledAI</a>
+      </div>
+
+      <div class="flex gap-8 text-lg font-medium">
+        <a href="{% url 'dashboard' %}" class="hover:text-teal-300">Dashboard</a>
+        <a href="{% url 'reports' %}" class="hover:text-teal-300">Reports</a>
+        <a href="#" class="hover:text-teal-300">Natal Chart</a>
+        <a href="{% url 'settings' %}" class="hover:text-teal-300">Settings</a>
+        <a href="{% url 'logout' %}" class="hover:text-red-300">Logout</a>
+      </div>
+    </div>
+  </nav>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+
+  <!-- FOOTER -->
+  <footer class="mt-auto bg-white shadow-inner border-t border-sea-deep/20">
+    <div class="max-w-7xl mx-auto px-6 py-4 text-center text-gray-600">
+         <p>&copy; 2025 <span class="text-teal-700 font-medium">UnruffledAI</span>. All Rights Reserved.</p>
+      © {{ now|date:"Y" }} Wellness & Burnout Insight Platform. Built with Intention 🌙
+    </div>
+  </footer>
+
+</body>
+</html>
+
+
+

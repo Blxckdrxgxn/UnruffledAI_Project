@@ -1,0 +1,83 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/reports.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="reports-container">
+
+    <!-- Page Title -->
+    <h1 class="page-title">Burnout Insights Report</h1>
+    <p class="subtitle">Review your wellness predictions, patterns, and AI insights.</p>
+
+    <!-- Chart Section -->
+    <section class="chart-section">
+        <h2>Burnout Risk Over Time</h2>
+        <canvas id="burnoutChart"></canvas>
+    </section>
+
+    <!-- Summary Card -->
+    <section class="summary-section">
+        <div class="summary-card">
+            <h3>Summary</h3>
+
+            {% if predictions %}
+                <p><strong>Total Predictions:</strong> {{ predictions|length }}</p>
+                <p><strong>Average Burnout Score:</strong> {{ avg_score }}%</p>
+                <p><strong>Most Recent Level:</strong> {{ latest.predicted_burnout_level }}</p>
+            {% else %}
+                <p>No predictions available yet.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Predictions List -->
+    <section class="predictions-section">
+        <h2>All Predictions</h2>
+
+        {% for p in predictions %}
+        <div class="prediction-card">
+            <div class="prediction-header">
+                <span class="date">{{ p.prediction_date }}</span>
+                <span class="level {{ p.predicted_burnout_level|lower }}">{{ p.predicted_burnout_level }}</span>
+            </div>
+
+            <div class="prediction-body">
+                <p><strong>Risk Score:</strong> {{ p.prediction_burnout_risk|floatformat:2 }}</p>
+                <p><strong>Factors:</strong> {{ p.contributing_factors }}</p>
+                <p><strong>Recommendations:</strong> {{ p.recommendations }}</p>
+                <a class="meditation-link" href="{{ p.meditation_link }}" target="_blank">Meditation Link</a>
+            </div>
+        </div>
+        {% empty %}
+        <p class="no-data">No predictions found.</p>
+        {% endfor %}
+    </section>
+
+</div>
+
+<!-- Chart Script -->
+<script>
+    const ctx = document.getElementById('burnoutChart').getContext('2d');
+
+    const dates = {{ dates|safe }};
+    const scores = {{ scores|safe }};
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Burnout Risk (%)',
+                data: scores,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+            }]
+        }
+    });
+</script>
+
+{% endblock %}
