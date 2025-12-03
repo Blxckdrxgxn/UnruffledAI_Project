@@ -8,6 +8,7 @@ from .views import (
     natal_chart_view,
     settings_view,
     login_view,
+    logout_view,
 )
 
 urlpatterns = [
@@ -19,5 +20,6 @@ urlpatterns = [
     path("natal/<str:full_name>/", natal_chart_view, name="natal_chart"),
     path("settings/", settings_view, name="settings"),
     path("login/", login_view, name="login"),
+    path("logout/", logout_view, name="logout"),
 ]
 

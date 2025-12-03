@@ -1,11 +1,8 @@
-# ---------------------------------------------------
-# LOGIN VIEW
-# ---------------------------------------------------
-def login_view(request):
-    return render(request, "core/login.html")
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth import logout
 from datetime import date
 
 from .models import (
@@ -20,6 +17,19 @@ from .models import (
 from .burnout_model import predict_burnout
 from .api.astrology import get_natal_interpretation
 from core.api.transits import get_transit_alerts
+
+# ---------------------------------------------------
+# LOGIN VIEW
+# ---------------------------------------------------
+def login_view(request):
+    return render(request, "core/login.html")
+
+# ---------------------------------------------------
+# LOGOUT VIEW
+# ---------------------------------------------------
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 
 # ---------------------------------------------------

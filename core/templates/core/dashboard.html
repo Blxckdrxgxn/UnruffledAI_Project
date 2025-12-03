@@ -148,7 +148,7 @@ new Chart(document.getElementById("burnoutGauge"), {
     type: "doughnut",
     data: {
         datasets: [{
-            data: [{{ combined_risk }}, {{ 100|add:-combined_risk }}],
+            data: [{{ combined_risk }}, {{ remaining_risk }}],
             backgroundColor: ["#ff6d6d", "rgba(255,255,255,0.1)"],
             borderWidth: 0
         }]
