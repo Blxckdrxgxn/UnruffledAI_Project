@@ -1,90 +1,155 @@
-{% extends "core/base.html" %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard • UnruffledAI</title>
 
-{% block content %}
+    <!-- Core Theme Styles (same as login) -->
+    <link rel="stylesheet" href="{% static 'css/core_theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
 
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<body class="dark-bg">
 
-<div class="dashboard-container mx-auto max-w-5xl">
+<!-- NAVIGATION BAR -->
+<header class="navbar">
+    <div class="nav-left">
+        <img src="{% static 'img/logo.png' %}" class="nav-logo">
+        <span class="nav-title">UnruffledAI</span>
+    </div>
 
-    <h1 class="text-3xl font-bold mb-2">Welcome, {{ user.userprofile.full_name }}</h1>
-    <p class="text-gray-600 mb-6">Your personalized burnout & astrological insight hub.</p>
+    <nav class="nav-links">
+        <a href="/dashboard/" class="active">Dashboard</a>
+        <a href="/reports/">Reports</a>
+        <a href="/natal/{{ profile.full_name }}/">Natal Chart</a>
+        <a href="/settings/">Settings</a>
+        <a href="/logout/" class="logout-btn">Logout</a>
+    </nav>
+</header>
 
-    <!-- Add Button -->
-    <button id="openBiometricModal" class="button-small mb-6">+ Add Biometric Data</button>
 
-    <!-- GRID -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- MAIN DASHBOARD CONTENT -->
+<div class="dashboard-wrapper">
 
-        <!-- Burnout Gauge -->
-        <div class="card p-6 shadow-md bg-white rounded-lg">
-            <h2 class="text-xl font-semibold mb-3">Burnout Risk</h2>
-            <canvas id="burnoutGauge"></canvas>
-            <p class="text-center text-lg mt-2 font-medium">{{ combined_risk }}%</p>
+    <!-- Greeting -->
+    <h1 class="welcome-text">Good afternoon, {{ profile.full_name }}</h1>
+    <p class="sub-text">Here’s your wellness overview for today</p>
+
+    <button id="openBiometricModal" class="primary-btn">+ Add Biometric Data</button>
+
+
+    <!-- CARD GRID -->
+    <div class="grid-container">
+
+        <!-- Burnout Gauge Card -->
+        <div class="card">
+            <h2 class="card-title">Your Burnout Risk</h2>
+            <canvas id="burnoutGauge" class="gauge"></canvas>
+            <p class="gauge-score">{{ combined_risk }}%</p>
         </div>
 
         <!-- Biometrics -->
-        <div class="card p-6 shadow-md bg-white rounded-lg">
-            <h2 class="text-xl font-semibold mb-3">Latest Biometrics</h2>
+        <div class="card">
+            <h2 class="card-title">Latest Biometrics</h2>
 
             {% if latest_biometric %}
-            <ul class="space-y-2">
-                <li><strong>HRV:</strong> {{ latest_biometric.hrv_score }}</li>
-                <li><strong>Sleep Hours:</strong> {{ latest_biometric.sleep_hours }}</li>
-                <li><strong>Stress Level:</strong> {{ latest_biometric.stress_level }}</li>
-                <li><strong>Activity:</strong> {{ latest_biometric.activity_level }}</li>
+            <ul class="info-list">
+                <li><span>Heart Rate:</span> {{ latest_biometric.heart_rate }} bpm</li>
+                <li><span>HRV Score:</span> {{ latest_biometric.hrv_score }}</li>
+                <li><span>Sleep Hours:</span> {{ latest_biometric.sleep_hours }}</li>
+                <li><span>Stress Level:</span> {{ latest_biometric.stress_level }}</li>
             </ul>
             {% else %}
-            <p class="text-gray-500">No data available.</p>
+            <p class="empty-text">No biometric data available yet.</p>
             {% endif %}
         </div>
 
         <!-- AI Prediction -->
-        <div class="card p-6 shadow-md bg-white rounded-lg">
-            <h2 class="text-xl font-semibold mb-3">AI Insight Summary</h2>
+        <div class="card">
+            <h2 class="card-title">Latest AI Prediction</h2>
 
             {% if latest_prediction %}
-                <p><strong>Level:</strong> {{ latest_prediction.predicted_burnout_level }}</p>
-                <p><strong>Score:</strong> {{ latest_prediction.prediction_burnout_risk|floatformat:2 }}</p>
+                <p><strong>Burnout Level:</strong> {{ latest_prediction.predicted_burnout_level }}</p>
+                <p><strong>Risk Score:</strong> {{ latest_prediction.prediction_burnout_risk|floatformat:2 }}%</p>
                 <p><strong>Factors:</strong> {{ latest_prediction.contributing_factors }}</p>
-                <a href="{{ latest_prediction.meditation_link }}" class="button-small mt-2">Meditation Link</a>
+
+                <a href="{{ latest_prediction.meditation_link }}" class="link-btn" target="_blank">
+                    View meditation resource
+                </a>
+
             {% else %}
-                <p class="text-gray-500">No AI predictions yet.</p>
+                <p class="empty-text">No predictions yet.</p>
             {% endif %}
         </div>
 
-        <!-- Transits -->
-        <div class="card p-6 shadow-md bg-white rounded-lg">
-            <h2 class="text-xl font-semibold mb-3">Astrological Transits</h2>
+        <!-- Transit Alerts -->
+        <div class="card">
+            <h2 class="card-title">Astrological Transit Alerts</h2>
 
             {% if transit_alerts %}
-                <ul class="space-y-3">
-                {% for t in transit_alerts %}
-                    <li class="border p-3 rounded-md">
-                        <strong>{{ t.transit_planet }}</strong> in House {{ t.natal_house }}
-                        <span class="block text-sm text-indigo-600">{{ t.severity }}</span>
-                        <p class="text-gray-600">{{ t.description }}</p>
-                    </li>
-                {% endfor %}
+                <ul class="info-list">
+                    {% for t in transit_alerts %}
+                        <li>
+                            <strong>{{ t.transit_planet }}</strong> entering House {{ t.natal_house }}
+                            <div class="transit-desc">{{ t.description }}</div>
+                        </li>
+                    {% endfor %}
                 </ul>
             {% else %}
-                <p class="text-gray-500">No active transits at this time.</p>
+                <p class="empty-text">No active transits today.</p>
             {% endif %}
+
+            <a href="/share-team/" class="share-link">Share with your team →</a>
         </div>
 
     </div>
 
 </div>
 
-<!-- Chart Script -->
+
+<!-- BIOMETRIC MODAL -->
+<div id="biometricModal" class="modal">
+    <div class="modal-content">
+        <h2>Add Biometric Data</h2>
+
+        <form method="POST" action="{% url 'add_biometric' %}">
+            {% csrf_token %}
+
+            <label>Heart Rate</label>
+            <input type="number" name="heart_rate" required>
+
+            <label>HRV Score</label>
+            <input type="number" name="hrv_score" required>
+
+            <label>Sleep Hours</label>
+            <input type="number" name="sleep_hours" required>
+
+            <label>Activity Level</label>
+            <input type="number" name="activity_level" required>
+
+            <label>Stress Level</label>
+            <input type="number" name="stress_index" required>
+
+            <div class="modal-buttons">
+                <button class="primary-btn" type="submit">Save</button>
+                <button class="secondary-btn" type="button" id="closeBiometricModal">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<!-- SCRIPTS -->
 <script>
-new Chart(document.getElementById("burnoutGauge").getContext("2d"), {
+new Chart(document.getElementById("burnoutGauge"), {
     type: "doughnut",
     data: {
         datasets: [{
-            data: [{{ combined_risk }}, {{ risk_remaining }}],
-            backgroundColor: ["#ff6d6d", "rgba(200,200,200,0.15)"],
+            data: [{{ combined_risk }}, {{ 100|add:-combined_risk }}],
+            backgroundColor: ["#ff6d6d", "rgba(255,255,255,0.1)"],
             borderWidth: 0
         }]
     },
@@ -93,6 +158,13 @@ new Chart(document.getElementById("burnoutGauge").getContext("2d"), {
         plugins: { legend: { display: false } }
     }
 });
+
+// Modal logic
+const modal = document.getElementById("biometricModal");
+document.getElementById("openBiometricModal").onclick = () => modal.style.display = "flex";
+document.getElementById("closeBiometricModal").onclick = () => modal.style.display = "none";
 </script>
 
-{% endblock %}
+</body>
+</html>
+
