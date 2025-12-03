@@ -1,3 +1,8 @@
+# ---------------------------------------------------
+# LOGIN VIEW
+# ---------------------------------------------------
+def login_view(request):
+    return render(request, "core/login.html")
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import JsonResponse
@@ -22,7 +27,7 @@ from core.api.transits import get_transit_alerts
 # ---------------------------------------------------
 def get_active_profile():
     """Always returns the first user profile (demo mode)."""
-    profile = UserProfile.objects.last()
+    profile = UserProfile.objects.get(id=1)
     return profile
 
 
@@ -72,8 +77,10 @@ def dashboard_view(request):
 
     combined_score = round(min(max(combined_score, 0), 100), 1)
 
+    remaining_risk = 100 - combined_score
     return render(request, "core/dashboard.html", {
         "combined_risk": combined_score,
+        "remaining_risk": remaining_risk,
         "transit_alerts": transits,
         "latest_biometric": latest_bio,
         "latest_prediction": latest_ai,
