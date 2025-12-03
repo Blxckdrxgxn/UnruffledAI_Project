@@ -1,5 +1,5 @@
-/* Auth.css-inspired background and font for dashboard */
-body.dark-bg {
+/* Global Background — Matching Auth Theme */
+.dark-bg {
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -8,99 +8,235 @@ body.dark-bg {
     color: #f5f8fa;
 }
 
-.dashboard-wrapper {
+
+
+/* NAVBAR */
+.navbar {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Card and button tweaks for auth look */
-.card {
+    padding: 15px 25px;
     background: rgba(255, 255, 255, 0.06);
-    border-radius: 18px;
     backdrop-filter: blur(12px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    padding: 30px 35px;
-    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 99;
 }
 
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-logo {
+    width: 45px;
+    height: auto;
+}
+
+.nav-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #e0e6ed;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #7abaff;
+}
+
+.logout-btn {
+    padding: 8px 14px;
+    background: #4f79ff;
+    color: #fff !important;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #3e62dd;
+}
+
+
+
+/* MAIN WRAPPER */
+.dashboard-wrapper {
+    padding: 40px 60px;
+}
+
+
+
+/* HEADINGS */
+.welcome-text {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.sub-text {
+    color: #bbcad8;
+    margin-bottom: 25px;
+    font-size: 1rem;
+}
+
+
+
+/* BUTTONS (match auth-btn) */
 .primary-btn {
     background: #4f79ff;
     border: none;
-    padding: 12px 28px;
+    padding: 12px 18px;
     border-radius: 10px;
     font-size: 1rem;
     color: #fff;
     cursor: pointer;
     transition: 0.2s ease;
 }
+
 .primary-btn:hover {
     background: #3e62dd;
 }
-.manual-entry-card label {
+
+.secondary-btn {
+    background: #1f2937;
+    color: #e0e6ed;
+    padding: 10px 20px;
+    border: 1px solid #3a4a5a;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.secondary-btn:hover {
+    background: #111a24;
+}
+
+
+
+/* GRID */
+.grid-container {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+
+
+/* CARDS — MATCH auth-card (blur effect + glass style) */
+.card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 25px 30px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.card-title {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+}
+
+
+
+/* TEXT STYLES */
+.info-list {
+    list-style: none;
+    padding: 0;
+}
+
+.info-list li {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.info-list span {
     font-weight: 600;
-    margin-bottom: 4px;
-    display: block;
+    color: #ced8e1;
 }
 
-.manual-entry-card input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--input-bg);
-    color: var(--text);
+.empty-text {
+    color: #9eb4c3;
+    font-style: italic;
 }
 
-/* Modal background */
-.modal-overlay {
-    display: none; 
+.gauge-score {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-top: 10px;
+}
+
+
+
+/* LINKS */
+.link-btn,
+.share-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #7abaff;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.link-btn:hover,
+.share-link:hover {
+    color: #a8ceff;
+}
+
+
+
+/* MODAL */
+.modal {
+    display: none;
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(4px);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    z-index: 999;
 }
 
-/* Modal box */
 .modal-content {
-    background: var(--card-bg);
+    background: rgba(255,255,255,0.08);
     padding: 30px;
-    border-radius: 16px;
-    width: 380px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    color: var(--text);
+    border-radius: 18px;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-.modal-content h2 {
-    margin-bottom: 16px;
-    font-size: 24px;
+.modal-content label {
+    display: block;
+    margin-top: 10px;
+    color: #ced8e1;
 }
 
-/* Inputs */
 .modal-content input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--input-bg);
-    color: var(--text);
+    padding: 12px;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 10px;
+    margin-top: 5px;
+    color: #fff;
 }
 
 .modal-buttons {
     display: flex;
     justify-content: space-between;
-}
-
-.cancel-btn {
-    background: #444;
+    margin-top: 20px;
 }

@@ -4,43 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <title>UnruffledAI</title>
+
+    <!-- Tailwind -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-      <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+
+    <!-- Your Theme CSS -->
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="dark-bg min-h-screen flex">
 
-    <!-- NAVIGATION BAR -->
-    <nav class="bg-[#0d1b2a] text-white py-4 px-6 flex justify-between items-center shadow-md">
-        <div class="flex items-center space-x-4">
-            <img src="{% static 'img/logo.png' %}" class="h-10 w-10 rounded-full">
-            <span class="font-semibold text-xl">UnruffledAI</span>
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="w-64 h-screen bg-white bg-opacity-10 backdrop-blur-xl shadow-xl p-6 flex flex-col text-white">
+
+        <!-- LOGO -->
+        <div class="flex items-center space-x-3 mb-10">
+            <img src="{% static 'img/logo.png' %}" class="h-12 w-12 rounded-full shadow-md">
+            <h1 class="text-2xl font-bold tracking-wide">UnruffledAI</h1>
         </div>
 
-        <div class="flex items-center space-x-6">
-            <a href="/dashboard/" class="hover:text-blue-300">Dashboard</a>
-            <a href="/reports/" class="hover:text-blue-300">Reports</a>
-            <a href="/settings/" class="hover:text-blue-300">Settings</a>
+        <!-- MENU LINKS -->
+        <nav class="flex flex-col space-y-4 text-lg">
+            <a href="/dashboard/"
+               class="hover:text-blue-300 transition">Dashboard</a>
+
+            <a href="/reports/"
+               class="hover:text-blue-300 transition">Reports</a>
+
+            <a href="/settings/"
+               class="hover:text-blue-300 transition">Settings</a>
 
             {% if user.is_authenticated %}
-                <a href="/natal/{{ user.userprofile.full_name }}/" class="hover:text-blue-300">Natal Chart</a>
-                <span class="ml-4 font-light italic">Welcome, {{ user.userprofile.full_name }}</span>
+            <a href="/natal/{{ user.userprofile.full_name }}/"
+               class="hover:text-blue-300 transition">Natal Chart</a>
             {% endif %}
+        </nav>
 
-            <a href="/share/" class="px-3 py-1 bg-blue-600 rounded-md hover:bg-blue-500">
-                Share With Team
-            </a>
-        </div>
-    </nav>
+    </aside>
 
-    <!-- PAGE CONTENT -->
-    <main class="px-10 py-6">
+
+    <!-- MAIN PAGE CONTENT -->
+    <main class="flex-1 p-10 overflow-y-auto">
         {% block content %}
         {% endblock %}
     </main>
 
 </body>
 </html>
+
 
 
 
