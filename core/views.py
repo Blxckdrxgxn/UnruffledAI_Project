@@ -22,7 +22,9 @@ from core.api.transits import get_transit_alerts
 # ---------------------------------------------------
 def get_active_profile():
     """Always returns the first user profile (demo mode)."""
-    return UserProfile.objects.first()
+    profile = UserProfile.objects.last()
+    return profile
+
 
 
 def compute_transit_pressure(transits):
